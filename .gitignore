@@ -26,3 +26,14 @@
 *.exe
 *.out
 *.app
+
+# Report
+*.pdf
+*.div
+
+# Backup
+*.swp
+*~
+
+# System files
+*DS_Store
