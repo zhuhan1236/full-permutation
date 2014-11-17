@@ -8,8 +8,26 @@
 using std::cout;
 using std::endl;
 
-int main(){
+template <class T> void get_full_permutation(bool (*next_permutation)(T, T), T first, T last);
+
+int main(int argc, char *argv[]){
     int test[] = {1, 2, 3};
-    cout << lex::next_permutation(&test, &test) << endl;
+    switch(argv[1][0]){
+        case 'l':
+            get_full_permutation(lex::next_permutation, &test, &test + 3);
+            break;
+        case 'i':
+            break;
+        case 'd':
+            break;
+        case 'e':
+            break;
+        default:
+            cout << "first param error" << endl;
+    }
     return 0;
+}
+
+template <class T> void get_full_permutation(bool (*next_permutation)(T, T), T first, T last){
+    cout << next_permutation(first, last) << endl;
 }
