@@ -2,7 +2,7 @@
 #include "ins_permutation.h"
 #include "des_permutation.h"
 #include "exc_permutation.h"
-
+//woshihuanghaowei
 #include <iostream>
 
 using std::cout;
