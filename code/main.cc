@@ -2,19 +2,21 @@
 #include "ins_permutation.h"
 #include "des_permutation.h"
 #include "exc_permutation.h"
-//woshihuanghaowei
+
 #include <iostream>
+#include <sys/time.h>
 
 using std::cout;
 using std::endl;
 
 template <class T> void get_full_permutation(bool (*next_permutation)(T, T), T first, T last);
+long getSystemTime();
 
 int main(int argc, char *argv[]){
-    int test[] = {1, 2, 3};
+    char test[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'};
     switch(argv[1][0]){
         case 'l':
-            get_full_permutation(lex::next_permutation, test, test + 3);
+            get_full_permutation(lex::next_permutation, test, test + 12);
             break;
         case 'i':
             break;
@@ -23,11 +25,24 @@ int main(int argc, char *argv[]){
         case 'e':
             break;
         default:
-            cout << "first param error" << endl;
+            get_full_permutation(std::next_permutation, test, test + 12);
     }
     return 0;
 }
 
 template <class T> void get_full_permutation(bool (*next_permutation)(T, T), T first, T last){
-    cout << next_permutation(first, last) << endl;
+    long start_time = getSystemTime();
+    while(next_permutation(first, last));
+    long end_time = getSystemTime();
+    
+    cout << end_time - start_time << endl;
 }
+
+long getSystemTime(){  
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    long t = tv.tv_sec;
+    t *= 1000;
+    t += tv.tv_usec/1000;
+    return t;
+}  
