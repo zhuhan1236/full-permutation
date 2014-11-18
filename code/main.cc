@@ -16,16 +16,17 @@ long getSystemTime();
 int main(int argc, char *argv[]){
     char test[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
     char temp[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
-    std::reverse(temp, temp + 12);
 
     switch(argv[1][0]){
         case 'l':
             get_full_permutation(lex::next_permutation, test, test + 10);
             break;
         case 'i':
+            std::reverse(temp, temp + 10);
             get_full_permutation(ins::next_permutation, test, test + 10, temp);
             break;
         case 'd':
+            get_full_permutation(des::next_permutation, test, test + 10, temp);
             break;
         case 'e':
             break;
