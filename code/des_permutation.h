@@ -71,8 +71,10 @@ namespace des{
         //在这里输出比较妥当，不然会少最后一个。
         T temp = first;
         while (temp < last){
+            std::cout<<*temp<<" ";
             temp++;
         }
+        std::cout<<std::endl;
 
         return plusOne(intermediary_number,right - first);
     }
