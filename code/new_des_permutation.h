@@ -26,17 +26,10 @@ namespace new_des{
             while(*(first+j) != *(sortedFirst + i))
                 j++;
             std::iter_swap(first+j,first+j-1);
-            for (T temp = first;temp < last;temp ++){
-                std::cout<<*temp<<" ";
-            }
-            std::cout<<std::endl;
+            
             *index = last - first - 1;
         }else{
             std::iter_swap(first + *index,first + *index - 1);
-            for (T temp = first;temp < last;temp ++){
-                std::cout<<*temp<<" ";
-            }
-            std::cout<<std::endl;
             *index = *index - 1;
         }
         return true;

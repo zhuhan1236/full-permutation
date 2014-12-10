@@ -3,6 +3,7 @@
 #include "des_permutation.h"
 #include "exc_permutation.h"
 #include "div_permutation.h"
+#include "new_des_permutation.h"
 
 #include <iostream>
 #include <sys/time.h>
@@ -13,6 +14,8 @@ using std::endl;
 template <class T> void get_full_permutation(bool (*next_permutation)(T, T), T first, T last);
 template <class T> void get_full_permutation(bool (*next_permutation)(T, T, int *, T), T first, T last, T sortedFirst);
 template <class T> void get_full_permutation_with_divide(T origin, T first, T last, T *cache, long long cache_size, int cache_length, T result);
+template <class T> void get_full_permutation_with_exc(T first, T right, bool *flags, T sortedFirst);
+template <class T> void get_full_permutation_with_dec(T first, T last, int *index, T sortedFirst);
 long getSystemTime();
 
 int main(int argc, char *argv[]){
@@ -25,25 +28,41 @@ int main(int argc, char *argv[]){
     }
 
     switch(argv[1][0]){
-        case 'l':
+        case 'l': // zidianxu
             {
                 get_full_permutation(lex::next_permutation, test, test + size);
             }
             break;
-        case 'i':
+        case 'i':// dizeng
             {
                 std::reverse(temp, temp + size);
                 get_full_permutation(ins::next_permutation, test, test + size, temp);
             }
             break;
-        case 'd':
+        case 'd':// dijian
             {
                 get_full_permutation(des::next_permutation, test, test + size, temp);
             }
             break;
-        case 'e':
+        case 'g':// gaijin dejian
+            {
+                std::reverse(temp, temp + size);
+                int *index = new int;
+                *index = size - 1;
+                get_full_permutation_with_dec(test, test + size, index, temp);
+                delete index;
+            }
             break;
-        case 'o':
+        case 'e':// linwei
+            {
+                std::reverse(temp, temp + size);
+                bool *temp_bool = new bool[size];
+                memset(temp_bool, false, sizeof(bool) * size);
+                get_full_permutation_with_exc(test, test + size - 1, temp_bool, temp);
+                delete [] temp_bool;
+            }
+            break;
+        case 'o':// our
             {
                 long long cache_size = 1;
                 int cache_length = atoi(argv[size + 3]);
@@ -63,7 +82,7 @@ int main(int argc, char *argv[]){
                 delete [] result;
             }
             break;
-        default:
+        default:// std::next_permutation
             {
                 get_full_permutation(std::next_permutation, test, test + size);
             }
@@ -79,8 +98,7 @@ template <class T> void get_full_permutation(bool (*next_permutation)(T, T), T f
     }while(next_permutation(first, last));
     long end_time = getSystemTime();
     
-    cout << end_time - start_time << endl;
-    cout << permutation_num << endl;
+    cout << last - first << " " << end_time - start_time << "ms" << endl;
 }
 
 template <class T> void get_full_permutation(bool (*next_permutation)(T, T, int *, T), T first, T last, T sortedFirst){
@@ -91,7 +109,7 @@ template <class T> void get_full_permutation(bool (*next_permutation)(T, T, int 
     long end_time = getSystemTime();
     
     delete [] i_number;
-    cout << end_time - start_time << endl;
+    cout << last - first << " " << end_time - start_time << "ms" << endl;
 }
 
 template <class T> void get_full_permutation_with_divide(T origin, T first, T last, T *cache, long long cache_size, int cache_length, T result){
@@ -99,7 +117,25 @@ template <class T> void get_full_permutation_with_divide(T origin, T first, T la
     long long permutation_num = divide::get_full_permutation(origin, first, last, cache, cache_size, cache_length, result);
     long end_time = getSystemTime();
 
-    cout << end_time - start_time << endl;
+    cout << last - first << " " << last - first - cache_length << " " << end_time - start_time << "ms" << endl;
+}
+
+template <class T> void get_full_permutation_with_exc(T first, T right, bool *flags, T sortedFirst){
+    long start_time = getSystemTime();
+    exc::excPermutation(first, right, flags, sortedFirst);
+    long end_time = getSystemTime();
+
+    cout << right - first + 1 << " " << end_time - start_time <<  "ms" << endl;
+}
+
+template <class T> void get_full_permutation_with_dec(T first, T last, int *index, T sortedFirst){
+    long start_time = getSystemTime();
+    long long p_num = 0;
+    while(new_des::next_permutation(first, last, index, sortedFirst))
+        p_num++;
+    long end_time = getSystemTime();
+
+    cout << last - first << " " << end_time - start_time <<  "ms" << endl;
 }
 
 long getSystemTime(){  
